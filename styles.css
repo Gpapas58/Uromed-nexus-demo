@@ -15,3 +15,13 @@
 [data-theme=light] summary{color:#24616a}
 [data-theme=light] :is(button,input,textarea,select,a):focus-visible{outline-color:#08717b}
 .statbar{display:flex;align-items:center;gap:16px;width:100%;margin:10px 0;background:transparent;color:var(--ink);border:1px solid var(--line);justify-content:space-between;text-align:left}.statbar>span:first-child{min-width:100px}.bar-track{display:block;flex:1;background:#21334c;border-radius:8px;overflow:hidden;height:18px}.bar-track>span{display:block;width:var(--bar-width);height:100%;background:linear-gradient(90deg,#50b6ff,#63ead7)}.statbar[aria-pressed=true]{outline:2px solid var(--accent)}[data-theme=light] .statbar{color:var(--ink)}[data-theme=light] .bar-track{background:#d9e6f0}.prewrap{white-space:pre-wrap;overflow-wrap:anywhere}
+
+/* Patient entry: compact age/phone; AMKA stays next to age. */
+.patient-fields{display:grid;grid-template-columns:minmax(200px,2fr) 90px minmax(180px,1.25fr) minmax(150px,1fr);gap:16px;align-items:start}
+.patient-fields label{min-width:0}.patient-fields label:last-child{max-width:210px}
+.masked-input{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums;white-space:pre;direction:ltr;letter-spacing:1px}
+.patient-matches{display:flex;flex-direction:column;align-items:stretch;gap:8px;margin:12px 0}.patient-matches button{text-align:left}
+@media(max-width:1150px){.patient-fields{grid-template-columns:90px minmax(180px,1fr) minmax(150px,1fr)}.patient-fields label:first-child{grid-column:1/-1}}
+@media(max-width:600px){.patient-fields{grid-template-columns:80px minmax(0,1fr)}.patient-fields label:last-child{grid-column:1/-1}}
+
+.patient-fields label:nth-child(2){grid-column:1/-1}.clinical-alert p,.prewrap{white-space:pre-wrap;overflow-wrap:anywhere}.exam-entry{border-top:1px solid var(--line);padding:22px 0}.exam-entry li{margin:12px 0}.exam-entry li button{margin:4px}.exam-preview{max-width:100%;height:auto}.patient-fields label:last-child{max-width:210px}

@@ -22,13 +22,20 @@ export function fresh() {
   {id:'seed-2',name:'Νικόλαος Παραδείγματος',age:64,phone:'',notes:'Εικονικός επανέλεγχος'},
   {id:'seed-3',name:'Πέτρος Υποδείγματος',age:43,phone:'',notes:'Εικονική πρώτη επίσκεψη'}],appointments:[],visits:[],settings:{hospital:false,modules:{statistics:true,feedback:true,programPrint:true,email:true},clinicNames:{'clinic-1':'Ιατρείο 1','clinic-2':'Ιατρείο 2',hospital:'Νοσοκομείο'},travelMinutes:0},updatedAt:new Date().toISOString()};
 }
-const string = (s,max=10000) => typeof s === 'string' && s.length <= max;
+const string = (s,max=Infinity) => typeof s === 'string' && s.length <= max;
+export const EXAM_TYPES={ultrasound:'Υπερηχογράφημα',ct:'Αξονική τομογραφία',mri:'Μαγνητική τομογραφία',blood:'Γενική αίματος',biochem:'Βιοχημικές εξετάσεις',psa:'PSA',other:'Άλλη εξέταση'};
+export const CLINICAL_FIELDS={familyHistory:'Οικογενειακό ιστορικό',medications:'Φάρμακα',allergies:'Αλλεργίες · τεκμηρίωση / αντίδραση',diagnoses:'Διαγνώσεις',urologyHistory:'Ουρολογικό ιστορικό',andrologyHistory:'Ανδρολογικό ιστορικό',luts:'Ιστορικό LUTS · συμπτώματα ούρησης'};
+export const emptyClinical=()=>({smoking:'unknown',...Object.fromEntries(Object.keys(CLINICAL_FIELDS).map(k=>[k,'']))});
 export function validate(s) {
  if (!s || s.schema!==1 || !Array.isArray(s.patients)||!Array.isArray(s.appointments)||!Array.isArray(s.visits)|| typeof s.settings?.hospital !== 'boolean') throw Error('Μη υποστηριζόμενη μορφή δεδομένων.');
  const unique = list => list.every(x=>x&&string(x.id,100)&&x.id) && new Set(list.map(x=>x.id)).size===list.length;
  if (![s.patients,s.appointments,s.visits].every(unique)) throw Error('Διπλοί ή μη έγκυροι κωδικοί εγγραφών.');
  const patients = new Set(s.patients.map(p=>p.id));
- if (!s.patients.every(p=>string(p.name,150)&&p.name.trim()&&Number.isInteger(p.age)&&p.age>=0&&p.age<=120&&string(p.phone,60)&&string(p.notes))) throw Error('Μη έγκυρα στοιχεία ασθενών.');
+ if(!s.patients.every(p=>(p.lastName===undefined||string(p.lastName,150))&&(p.firstName===undefined||string(p.firstName,150))&&(p.clinical===undefined||p.clinical&&['unknown','never','current','former'].includes(p.clinical.smoking)&&Object.keys(CLINICAL_FIELDS).every(k=>string(p.clinical[k])))))throw Error('Μη έγκυρα κλινικά στοιχεία ασθενή.');
+ if(s.examinations!==undefined&&(!Array.isArray(s.examinations)||!unique(s.examinations)||!s.examinations.every(e=>patients.has(e.patientId)&&Object.hasOwn(EXAM_TYPES,e.category)&&validDate(e.date)&&string(e.title,200)&&e.title.trim()&&string(e.result)&&string(e.referenceRange)&&string(e.notes)&&Array.isArray(e.files)&&e.files.every(f=>f&&string(f.id,100)&&f.id&&string(f.name,255)&&string(f.type,150)&&Number.isInteger(f.size)&&f.size>0&&f.size<=20*1024*1024))))throw Error('Μη έγκυρες εξετάσεις ή συνημμένα.');
+ const fileIds=(s.examinations||[]).flatMap(e=>e.files.map(f=>f.id));if(new Set(fileIds).size!==fileIds.length)throw Error('Διπλοί κωδικοί συνημμένων.');
+
+ if (!s.patients.every(p=>string(p.name,150)&&p.name.trim()&&Number.isInteger(p.age)&&p.age>=0&&p.age<=120&&(p.amka===undefined||typeof p.amka==='string'&&/^(?:[0-9]{11})?$/.test(p.amka))&&string(p.phone,60)&&string(p.notes))) throw Error('Μη έγκυρα στοιχεία ασθενών.');
  if (!s.appointments.every(a=>patients.has(a.patientId)&&validDate(a.date)&&validTime(a.time)&&Number.isInteger(a.duration)&&a.duration>=5&&a.duration<=240&&minutes(a.time)+a.duration<=1440&&['clinic-1','clinic-2','hospital'].includes(a.clinic)&&['scheduled','cancelled','completed','no-show'].includes(a.status))) throw Error('Μη έγκυρα ραντεβού.');
  const visitValid = v => patients.has(v.patientId)&&validDate(v.date)&&['clinic-1','clinic-2','hospital'].includes(v.clinic)&&['draft','final'].includes(v.status)&&['reason','history','exam','assessment','plan'].every(k=>string(v[k]))&&string(v.author,100)&&string(v.updatedAt,100)&&Array.isArray(v.revisions);
  if (!s.visits.every(v=>visitValid(v)&&v.revisions.every(r=>r&&string(r.reason,500)&&string(r.author,100)&&string(r.at,100)&&r.snapshot&&['reason','history','exam','assessment','plan'].every(k=>string(r.snapshot[k]))))) throw Error('Μη έγκυρες επισκέψεις.');
@@ -41,7 +48,7 @@ export function validate(s) {
 export function normalize(s) {
  validate(s);
  const defaults=fresh().settings;
- return {...s,feedback:s.feedback||[],settings:{...defaults,...s.settings,modules:{...defaults.modules,...s.settings.modules},clinicNames:{...defaults.clinicNames,...s.settings.clinicNames}}};
+ return {...s,patients:s.patients.map(p=>({...p,amka:p.amka||'',lastName:p.lastName||'',firstName:p.firstName||'',clinical:p.clinical||emptyClinical()})),examinations:s.examinations||[],feedback:s.feedback||[],settings:{...defaults,...s.settings,modules:{...defaults.modules,...s.settings.modules},clinicNames:{...defaults.clinicNames,...s.settings.clinicNames}}};
 }
 export function demoState() {
  const s=normalize(fresh());
@@ -85,4 +92,14 @@ export function conflicts(state,a) {
   const gap=b.clinic===a.clinic?0:(state.settings.travelMinutes||0);
   return minutes(a.time)<minutes(b.time)+b.duration+gap&&minutes(b.time)<minutes(a.time)+a.duration+gap;
  });
+}
+
+// Search tolerates Greek accents and preserves leading zeroes in fictional AMKA.
+export const searchText = value => String(value??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('el').trim().replace(/ς/g,'σ');
+export function matchesPatient(p,query,{history=false}={}) {
+ const q=searchText(query);if(!q)return true;
+ if(/^[0-9]+$/.test(q))return (!history&&String(p.age)===q)||(p.amka||'').startsWith(q)||(!history&&(p.phone||'').includes(q));
+ if(history&&q.length<2)return false;
+ const name=searchText(history&&p.lastName?p.lastName:p.name);
+ return history?name.split(/\s+/).some(part=>part.startsWith(q)):name.includes(q);
 }

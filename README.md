@@ -1,9 +1,17 @@
 # UroMed Nexus Suite — Educational Demo
 
-Build 03. Greek educational prototype. Fictional patient data only.
+Build 05. Greek educational prototype, with surname-first patient entry, fictional AMKA, fixed date/time separators, clinical and urology/andrology history, visits and attached exam files.
 
-The credentials displayed in the login screen are public demo credentials, not production authentication. All entered data stays in the current browser storage; no shared database or synchronization. PIN and platform WebAuthn are local demo mechanisms. Do not enter real patient information.
+**Fictional patients and synthetic documents only. Not for real medical care.** The credentials displayed on the login screen are public demo credentials, not production authentication.
 
-Publish this directory only using GitHub Pages, branch main, folder root. The application uses relative asset paths and requires HTTPS or a local server. No build dependencies. Clinical AI, telemedicine and official prescription issuance are not implemented.
+- Doctor: `doctor` / `DoctorDemo!2026`
+- Reception: `reception` / `ReceptionDemo!2026`
+- Administration: `ADMIN` / `AdminDemo!2026`
 
-Only app source and this README belong in this public repository. Conversation history, attachments, local credentials and backups are intentionally excluded.
+All entered data stays in the current browser: text/metadata in localStorage and exam files in IndexedDB. No shared database, synchronization or external sending. PIN/WebAuthn are local demo mechanisms. The update keeps the existing storage key and supports older fictional records. Confirm surname and first name when editing legacy names.
+
+Exam categories: ultrasound, CT, MRI, blood count, biochemical tests, PSA, other. Supported files: PDF, PNG, JPEG, WebP, DICOM and ZIP, up to 20 MB each / 100 MB total. DICOM/ZIP are storage/download only. Backup JSON includes the attached file bytes. Keep backups before clearing browser data.
+
+Clinical text has no fixed character cap; browser storage capacity still applies and save errors must be checked. Official prescribing remains external through IDIKA. Clinical AI and telemedicine are not implemented.
+
+Deploy with GitHub Pages: main branch, root folder. No build step. Public app files only; conversation archives, credentials and user backups are excluded.
