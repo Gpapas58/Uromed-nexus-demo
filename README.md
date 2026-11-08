@@ -15,3 +15,8 @@ Exam categories: ultrasound, CT, MRI, blood count, biochemical tests, PSA, other
 Clinical text has no fixed character cap; browser storage capacity still applies and save errors must be checked. Official prescribing remains external through IDIKA. Clinical AI and telemedicine are not implemented.
 
 Deploy with GitHub Pages: main branch, root folder. No build step. Public app files only; conversation archives, credentials and user backups are excluded.
+
+
+## Welcome screen
+
+The initial welcome page is a visual adaptation of the supplied medical brand reference, with real HTML text and navigation controls. The generated decorative artwork is welcome-bg.png. Continue to login directly or open the retained marketing page. No simulated loading progress or forced wait.
