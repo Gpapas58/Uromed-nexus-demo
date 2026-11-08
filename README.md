@@ -19,4 +19,4 @@ Deploy with GitHub Pages: main branch, root folder. No build step. Public app fi
 
 ## Welcome screen
 
-The initial welcome page is a visual adaptation of the supplied medical brand reference, with real HTML text and navigation controls. The generated decorative artwork is welcome-bg.png. Continue to login directly or open the retained marketing page. No simulated loading progress or forced wait.
+The welcome page displays the original user-provided PNG (welcome-bg.png), unchanged, using object-fit: contain so all text and side icons remain visible. The loading bar and v1.0.0 label belong to the supplied artwork; the current application build is stated separately below. Clicking the image or Continue opens login. Continue to login directly or open the retained marketing page. No simulated loading progress or forced wait.
