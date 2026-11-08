@@ -20,3 +20,8 @@ Deploy with GitHub Pages: main branch, root folder. No build step. Public app fi
 ## Welcome screen
 
 The welcome page displays the original user-provided PNG (welcome-bg.png), unchanged, using object-fit: contain so all text and side icons remain visible. The loading bar and v1.0.0 label belong to the supplied artwork; the current application build is stated separately below. Clicking the image or Continue opens login. Continue to login directly or open the retained marketing page. No simulated loading progress or forced wait.
+
+
+## Medical login screen
+
+The login screen uses the supplied medical design as artwork (login-screen.png) with actual HTML form controls over the central card. Password, local PIN and optional platform WebAuthn remain functional. Username can be remembered by explicit checkbox; passwords and authentication sessions are not saved by that option. Demo credentials/help are available from a dialog. Security labels accurately describe local demo storage, not an encrypted clinical database. Responsive layouts were checked at 1672, 1440, 1024 and 390 pixels.
