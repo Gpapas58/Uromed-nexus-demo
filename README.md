@@ -37,3 +37,14 @@ The CT AI screen is a separate **inactive design reference**. It displays the su
 ## Functional startup progress
 
 The welcome screen now overlays a real four-stage progress element on the supplied artwork. Stages correspond to welcome image decoding, application module loading, local workspace validation/migration, and opening the exam attachment store. There is no artificial loading timer. Continue becomes available after the checks complete. An unavailable image or attachment store is reported as a warning; a module or workspace failure blocks startup with retry and, when available, raw-data recovery export. Existing workspace keys are unchanged. The entry module is bootstrap.js.
+
+
+## Build 07: shared clinical workspace
+
+Approved blue/white visual language with a dark left sidebar and a real dashboard. Clinic cards, today's schedule and visit totals are calculated from local records, with the hospital shown only when enabled. Patient table includes search, status/clinic/date filters, favourites, pagination, selected-row administrative CSV export and surname-first editing. The patient overview shows actual clinical fields, saved attachments, visits and a PSA trend only for explicit finite ng/mL results. Timeline filters visits, exams/documents, imaging, appointments and saved profile/notes updates; filtered history can be printed/PDF.
+
+The IDIKA screen opens https://www.e-prescription.gr/ externally, with noopener/noreferrer and no patient parameters or automatic data transfer. Internal medication text is saved in the patient profile, never issued as a prescription. Prescription copies can be manually attached as an examination/document category, included in normal backup/restore. Reports list final visits for preview, print/PDF and existing optional email draft. CT and MRI AI screens are inactive design references; no AI medical results are generated.
+
+Compatibility targets: Windows 11 browsers, Android 13+ browsers, Safari on iOS/iPadOS 16+. Automated Chromium checks cover desktop/tablet/mobile widths 1366, 1024, 768 and 390 pixels and the core workflows. These are not physical Windows/Android/iOS or Safari tests. Platform biometrics, full screen, downloads and printing depend on device/browser support; password/PIN and image-viewer fallbacks remain available. Local data is separate on each device, not synchronized.
+
+Validation: 25 domain/authentication tests plus browser suites for startup failures, clinical editing, files/backup, imaging, patient table/timeline, IDIKA and role separation. Use only fictional data; this remains an educational prototype without production authentication or clinical certification.

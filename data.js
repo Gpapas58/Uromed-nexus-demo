@@ -1,4 +1,5 @@
 // Educational local data store. No real patient information.
+const patientStatuses=['active','followup','review','inactive'];
 export const DATA_KEY = 'uromed-nexus-suite-v03-workspace';
 export const MODULES = {statistics:'Ιστορικό & Στατιστικά',feedback:'Παρατηρήσεις δοκιμής',programPrint:'Εκτύπωση προγράμματος',email:'E-MAIL αναφοράς'};
 export const LEGACY_PATIENTS = 'uromed-nexus-demo-v0.3-patients';
@@ -23,7 +24,7 @@ export function fresh() {
   {id:'seed-3',name:'Πέτρος Υποδείγματος',age:43,phone:'',notes:'Εικονική πρώτη επίσκεψη'}],appointments:[],visits:[],settings:{hospital:false,modules:{statistics:true,feedback:true,programPrint:true,email:true},clinicNames:{'clinic-1':'Ιατρείο 1','clinic-2':'Ιατρείο 2',hospital:'Νοσοκομείο'},travelMinutes:0},updatedAt:new Date().toISOString()};
 }
 const string = (s,max=Infinity) => typeof s === 'string' && s.length <= max;
-export const EXAM_TYPES={ultrasound:'Υπερηχογράφημα',ct:'Αξονική τομογραφία',mri:'Μαγνητική τομογραφία',blood:'Γενική αίματος',biochem:'Βιοχημικές εξετάσεις',psa:'PSA',xray:'Απλή ακτινογραφία',otherImaging:'Άλλη απεικόνιση',other:'Άλλη εξέταση'};
+export const EXAM_TYPES={ultrasound:'Υπερηχογράφημα',ct:'Αξονική τομογραφία',mri:'Μαγνητική τομογραφία',blood:'Γενική αίματος',biochem:'Βιοχημικές εξετάσεις',psa:'PSA',xray:'Απλή ακτινογραφία',otherImaging:'Άλλη απεικόνιση',prescription:'Αντίγραφο συνταγής · χειροκίνητη εισαγωγή',other:'Άλλη εξέταση'};
 export const CLINICAL_FIELDS={familyHistory:'Οικογενειακό ιστορικό',medications:'Φάρμακα',allergies:'Αλλεργίες · τεκμηρίωση / αντίδραση',diagnoses:'Διαγνώσεις',urologyHistory:'Ουρολογικό ιστορικό',andrologyHistory:'Ανδρολογικό ιστορικό',luts:'Ιστορικό LUTS · συμπτώματα ούρησης'};
 export const emptyClinical=()=>({smoking:'unknown',...Object.fromEntries(Object.keys(CLINICAL_FIELDS).map(k=>[k,'']))});
 export function validate(s) {
@@ -31,6 +32,8 @@ export function validate(s) {
  const unique = list => list.every(x=>x&&string(x.id,100)&&x.id) && new Set(list.map(x=>x.id)).size===list.length;
  if (![s.patients,s.appointments,s.visits].every(unique)) throw Error('Διπλοί ή μη έγκυροι κωδικοί εγγραφών.');
  const patients = new Set(s.patients.map(p=>p.id));
+ if(s.patients.some(p=>(p.status!==undefined&&!patientStatuses.includes(p.status))||(p.favourite!==undefined&&typeof p.favourite!=='boolean')||(p.sex!==undefined&&!['unknown','male','female','other'].includes(p.sex))||(p.assignedClinic!==undefined&&!['','clinic-1','clinic-2','hospital'].includes(p.assignedClinic))||['email','address','occupation','insurance','contact'].some(k=>p[k]!==undefined&&!string(p[k],500))||['clinicalUpdatedAt','notesUpdatedAt'].some(k=>p[k]!==undefined&&(!string(p[k],100)||!eventDate(p[k])))))throw Error('Μη έγκυρα δημογραφικά στοιχεία ή κατάσταση ασθενή.');
+
  if(!s.patients.every(p=>(p.lastName===undefined||string(p.lastName,150))&&(p.firstName===undefined||string(p.firstName,150))&&(p.clinical===undefined||p.clinical&&['unknown','never','current','former'].includes(p.clinical.smoking)&&Object.keys(CLINICAL_FIELDS).every(k=>string(p.clinical[k])))))throw Error('Μη έγκυρα κλινικά στοιχεία ασθενή.');
  if(s.examinations!==undefined&&(!Array.isArray(s.examinations)||!unique(s.examinations)||!s.examinations.every(e=>patients.has(e.patientId)&&Object.hasOwn(EXAM_TYPES,e.category)&&validDate(e.date)&&string(e.title,200)&&e.title.trim()&&string(e.result)&&string(e.referenceRange)&&string(e.notes)&&Array.isArray(e.files)&&e.files.every(f=>f&&string(f.id,100)&&f.id&&string(f.name,255)&&string(f.type,150)&&Number.isInteger(f.size)&&f.size>0&&f.size<=20*1024*1024))))throw Error('Μη έγκυρες εξετάσεις ή συνημμένα.');
  if((s.examinations||[]).some(e=>(e.comparisonNote!==undefined&&!string(e.comparisonNote))||(e.imagingRevisions!==undefined&&(!Array.isArray(e.imagingRevisions)||e.imagingRevisions.some(r=>!r||!string(r.at,100)||!string(r.author,100)||!string(r.result)||!string(r.notes)||!string(r.comparisonNote))))))throw Error('Μη έγκυρο ιστορικό απεικονιστικών ευρημάτων.');
@@ -49,7 +52,7 @@ export function validate(s) {
 export function normalize(s) {
  validate(s);
  const defaults=fresh().settings;
- return {...s,patients:s.patients.map(p=>({...p,amka:p.amka||'',lastName:p.lastName||'',firstName:p.firstName||'',clinical:p.clinical||emptyClinical()})),examinations:s.examinations||[],feedback:s.feedback||[],settings:{...defaults,...s.settings,modules:{...defaults.modules,...s.settings.modules},clinicNames:{...defaults.clinicNames,...s.settings.clinicNames}}};
+ return {...s,patients:s.patients.map(p=>({...p,status:p.status||'active',favourite:p.favourite||false,sex:p.sex||'unknown',assignedClinic:p.assignedClinic||'',email:p.email||'',address:p.address||'',occupation:p.occupation||'',insurance:p.insurance||'',contact:p.contact||'',amka:p.amka||'',lastName:p.lastName||'',firstName:p.firstName||'',clinical:p.clinical||emptyClinical()})),examinations:s.examinations||[],feedback:s.feedback||[],settings:{...defaults,...s.settings,modules:{...defaults.modules,...s.settings.modules},clinicNames:{...defaults.clinicNames,...s.settings.clinicNames}}};
 }
 export function demoState() {
  const s=normalize(fresh());
@@ -104,3 +107,18 @@ export function matchesPatient(p,query,{history=false}={}) {
  const name=searchText(history&&p.lastName?p.lastName:p.name);
  return history?name.split(/\s+/).some(part=>part.startsWith(q)):name.includes(q);
 }
+
+export const PATIENT_STATUSES={active:'Ενεργός',followup:'Υπό παρακολούθηση',review:'Επανέλεγχος',inactive:'Μη ενεργός'};
+export function patientLastVisit(s,id){return s.visits.filter(v=>v.patientId===id&&v.status==='final').sort((a,b)=>b.date.localeCompare(a.date))[0];}
+export function patientClinics(s,p){return [...new Set([p.assignedClinic,...s.visits.filter(v=>v.patientId===p.id).map(v=>v.clinic),...s.appointments.filter(a=>a.patientId===p.id).map(a=>a.clinic)].filter(Boolean))];}
+export function timelineEvents(s,id){
+ const p=s.patients.find(p=>p.id===id);if(!p)return [];
+ const events=[...s.visits.filter(v=>v.patientId===id).map(v=>({id:'visit:'+v.id,sourceId:v.id,type:'visits',date:v.date,title:v.reason||'Προσχέδιο επίσκεψης',text:[v.history,v.exam,v.assessment,v.plan].filter(Boolean).join('\n'),status:v.status,clinic:v.clinic})),...(s.examinations||[]).filter(e=>e.patientId===id).map(e=>({id:'exam:'+e.id,sourceId:e.id,type:['ultrasound','ct','mri','xray','otherImaging'].includes(e.category)?'imaging':'exams',date:e.date,title:e.title,text:[e.result,e.notes,e.comparisonNote].filter(Boolean).join('\n')})),...s.appointments.filter(a=>a.patientId===id).map(a=>({id:'appointment:'+a.id,sourceId:a.id,type:'appointments',date:a.date,title:'Ραντεβού · '+a.time,text:({scheduled:'Προγραμματισμένο',completed:'Πραγματοποιημένο',cancelled:'Ακυρωμένο','no-show':'Μη προσέλευση'})[a.status],clinic:a.clinic}))];
+ if(p.clinicalUpdatedAt&&eventDate(p.clinicalUpdatedAt))events.push({id:'profile:'+id,sourceId:id,type:'profile',date:eventDate(p.clinicalUpdatedAt),title:'Τελευταία ενημέρωση ιατρικού ιστορικού',text:[p.clinical?.diagnoses,p.clinical?.medications,p.clinical?.luts].filter(Boolean).join('\n')});
+ if(p.notesUpdatedAt&&eventDate(p.notesUpdatedAt))events.push({id:'notes:'+id,sourceId:id,type:'notes',date:eventDate(p.notesUpdatedAt),title:'Τελευταία ενημέρωση σημειώσεων φακέλου',text:p.notes});
+ return events.sort((a,b)=>b.date.localeCompare(a.date)||a.id.localeCompare(b.id));
+}
+export function psaValues(s,id){return (s.examinations||[]).filter(e=>e.patientId===id&&e.category==='psa').flatMap(e=>{const match=e.result.match(/^\s*(\d+(?:[.,]\d+)?)\s*ng\s*\/\s*ml\s*$/i);const value=match?Number(match[1].replace(',','.')):NaN;return Number.isFinite(value)?[{id:e.id,date:e.date,value}]:[];}).sort((a,b)=>a.date.localeCompare(b.date));}
+export function patientsCSV(patients){const cell=value=>{let s=String(value??'');if(/^\s*[=+\-@]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"';};return '\uFEFF'+[['Επίθετο','Όνομα','Παλαιό ενιαίο όνομα','Ηλικία','Α.Μ.Κ.Α.','Τηλέφωνο','Email','Κατάσταση'],...patients.map(p=>[p.lastName||'',p.firstName||'',p.lastName?'':p.name,p.age,p.amka||'',p.phone,p.email||'',PATIENT_STATUSES[p.status||'active']])].map(row=>row.map(cell).join(',')).join('\r\n');}
+
+function eventDate(value){if(typeof value!=='string')return '';if(/^\d{4}-\d{2}-\d{2}$/.test(value))return validDate(value)?value:'';const date=new Date(value);if(isNaN(date))return '';const parts=Object.fromEntries(new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Athens',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(date).map(p=>[p.type,p.value]));return `${parts.year}-${parts.month}-${parts.day}`;}
