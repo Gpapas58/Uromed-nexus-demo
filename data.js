@@ -23,7 +23,7 @@ export function fresh() {
   {id:'seed-3',name:'Πέτρος Υποδείγματος',age:43,phone:'',notes:'Εικονική πρώτη επίσκεψη'}],appointments:[],visits:[],settings:{hospital:false,modules:{statistics:true,feedback:true,programPrint:true,email:true},clinicNames:{'clinic-1':'Ιατρείο 1','clinic-2':'Ιατρείο 2',hospital:'Νοσοκομείο'},travelMinutes:0},updatedAt:new Date().toISOString()};
 }
 const string = (s,max=Infinity) => typeof s === 'string' && s.length <= max;
-export const EXAM_TYPES={ultrasound:'Υπερηχογράφημα',ct:'Αξονική τομογραφία',mri:'Μαγνητική τομογραφία',blood:'Γενική αίματος',biochem:'Βιοχημικές εξετάσεις',psa:'PSA',other:'Άλλη εξέταση'};
+export const EXAM_TYPES={ultrasound:'Υπερηχογράφημα',ct:'Αξονική τομογραφία',mri:'Μαγνητική τομογραφία',blood:'Γενική αίματος',biochem:'Βιοχημικές εξετάσεις',psa:'PSA',xray:'Απλή ακτινογραφία',otherImaging:'Άλλη απεικόνιση',other:'Άλλη εξέταση'};
 export const CLINICAL_FIELDS={familyHistory:'Οικογενειακό ιστορικό',medications:'Φάρμακα',allergies:'Αλλεργίες · τεκμηρίωση / αντίδραση',diagnoses:'Διαγνώσεις',urologyHistory:'Ουρολογικό ιστορικό',andrologyHistory:'Ανδρολογικό ιστορικό',luts:'Ιστορικό LUTS · συμπτώματα ούρησης'};
 export const emptyClinical=()=>({smoking:'unknown',...Object.fromEntries(Object.keys(CLINICAL_FIELDS).map(k=>[k,'']))});
 export function validate(s) {
@@ -33,6 +33,7 @@ export function validate(s) {
  const patients = new Set(s.patients.map(p=>p.id));
  if(!s.patients.every(p=>(p.lastName===undefined||string(p.lastName,150))&&(p.firstName===undefined||string(p.firstName,150))&&(p.clinical===undefined||p.clinical&&['unknown','never','current','former'].includes(p.clinical.smoking)&&Object.keys(CLINICAL_FIELDS).every(k=>string(p.clinical[k])))))throw Error('Μη έγκυρα κλινικά στοιχεία ασθενή.');
  if(s.examinations!==undefined&&(!Array.isArray(s.examinations)||!unique(s.examinations)||!s.examinations.every(e=>patients.has(e.patientId)&&Object.hasOwn(EXAM_TYPES,e.category)&&validDate(e.date)&&string(e.title,200)&&e.title.trim()&&string(e.result)&&string(e.referenceRange)&&string(e.notes)&&Array.isArray(e.files)&&e.files.every(f=>f&&string(f.id,100)&&f.id&&string(f.name,255)&&string(f.type,150)&&Number.isInteger(f.size)&&f.size>0&&f.size<=20*1024*1024))))throw Error('Μη έγκυρες εξετάσεις ή συνημμένα.');
+ if((s.examinations||[]).some(e=>(e.comparisonNote!==undefined&&!string(e.comparisonNote))||(e.imagingRevisions!==undefined&&(!Array.isArray(e.imagingRevisions)||e.imagingRevisions.some(r=>!r||!string(r.at,100)||!string(r.author,100)||!string(r.result)||!string(r.notes)||!string(r.comparisonNote))))))throw Error('Μη έγκυρο ιστορικό απεικονιστικών ευρημάτων.');
  const fileIds=(s.examinations||[]).flatMap(e=>e.files.map(f=>f.id));if(new Set(fileIds).size!==fileIds.length)throw Error('Διπλοί κωδικοί συνημμένων.');
 
  if (!s.patients.every(p=>string(p.name,150)&&p.name.trim()&&Number.isInteger(p.age)&&p.age>=0&&p.age<=120&&(p.amka===undefined||typeof p.amka==='string'&&/^(?:[0-9]{11})?$/.test(p.amka))&&string(p.phone,60)&&string(p.notes))) throw Error('Μη έγκυρα στοιχεία ασθενών.');

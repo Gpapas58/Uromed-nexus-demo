@@ -1,6 +1,6 @@
 # UroMed Nexus Suite — Educational Demo
 
-Build 05. Greek educational prototype, with surname-first patient entry, fictional AMKA, fixed date/time separators, clinical and urology/andrology history, visits and attached exam files.
+Build 06. Greek educational prototype, with surname-first patient entry, fictional AMKA, fixed date/time separators, clinical and urology/andrology history, visits and attached exam files.
 
 **Fictional patients and synthetic documents only. Not for real medical care.** The credentials displayed on the login screen are public demo credentials, not production authentication.
 
@@ -25,3 +25,10 @@ The welcome page displays the original user-provided PNG (welcome-bg.png), uncha
 ## Medical login screen
 
 The login screen uses the supplied medical design as artwork (login-screen.png) with actual HTML form controls over the central card. Password, local PIN and optional platform WebAuthn remain functional. Username can be remembered by explicit checkbox; passwords and authentication sessions are not saved by that option. Demo credentials/help are available from a dialog. Security labels accurately describe local demo storage, not an encrypted clinical database. Responsive layouts were checked at 1672, 1440, 1024 and 390 pixels.
+
+
+## Build 06: Imaging workspace
+
+Doctor navigation now includes Imaging: patient-scoped imaging list, PNG/JPEG/WebP viewer from IndexedDB, zoom/fit/fullscreen, comparison with another examination of the same patient, and manual findings/conclusion/comparison notes. Existing exam attachments, backup and patient IDs are retained. Previous manual findings are recorded locally when changed. X-ray and other imaging categories were added. Font sizes and touch targets are increased; only implemented viewer tools are shown. DICOM/PDF/ZIP remain downloadable storage files, not diagnostic viewers.
+
+The CT AI screen is a separate **inactive design reference**. It displays the supplied static mockup with a clear label: no analysis runs, confidence scores/measurements are fictional, and nothing is imported into clinical records. Clinical image analysis requires a separately validated system. The original imaging mockup is also available as a design reference, separate from stored patient images.
