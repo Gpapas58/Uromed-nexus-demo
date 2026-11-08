@@ -5,13 +5,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0a1529">
 <title>UroMed Nexus Suite — v0.3 Hybrid Futuristic</title>
-<link rel="stylesheet" href="styles.css?v=20261108-imaging">
+<link rel="stylesheet" href="styles.css?v=20261108-startup">
 </head>
 <body>
-<div id="app"></div>
+<section id="bootScreen" class="welcome" aria-label="Εκκίνηση UroMed Nexus Suite">
+<button type="button" id="bootImageStart" class="welcome-image-button" disabled aria-label="Συνέχεια στην είσοδο μετά την ολοκλήρωση φόρτωσης">
+<span class="welcome-artboard"><img id="bootArtwork" src="welcome-bg.png?v=original-20261108" width="1672" height="941" fetchpriority="high" alt="UroMed Nexus Suite · Αρχικό γραφικό υποδοχής με γιατρό, λογότυπο και πλαϊνά εικονίδια."><progress id="bootProgress" class="startup-progress" max="4" value="0" aria-label="Στάδια εκκίνησης εφαρμογής">0/4</progress></span>
+</button>
+<div class="startup-status"><p id="bootStatus" role="status" aria-live="polite">Ετοιμασία εκκίνησης · 0/4 στάδια</p><p id="bootWarning" class="startup-warning" hidden></p></div>
+<div class="welcome-navigation"><button type="button" id="bootContinue" class="welcome-enter" data-action="login" disabled>Συνέχεια στην είσοδο →</button><button type="button" id="bootRetry" hidden>Επανάληψη φόρτωσης</button><button type="button" id="bootRecovery" hidden>Εξαγωγή δεδομένων για ανάκτηση</button></div>
+</section>
+<div id="app" hidden></div>
 <div id="toast" role="status" aria-live="polite"></div>
 <dialog id="help"><h2>Βοήθεια</h2><div id="helpText"></div><button id="closeHelp">Κλείσιμο</button></dialog>
 <noscript>Η εκπαιδευτική εφαρμογή χρειάζεται ενεργή JavaScript.</noscript>
-<script type="module" src="app.js?v=20261108-imaging"></script>
+<script type="module" src="bootstrap.js?v=20261108-startup"></script>
+<script>
+window.addEventListener('error',function(e){if(e.target.tagName==='SCRIPT' && e.target.src.indexOf('bootstrap.js')!==-1){document.getElementById('bootStatus').textContent='Δεν φορτώθηκε ο εκκινητής. Ελέγξτε τη σύνδεση και δοκιμάστε ξανά.';document.getElementById('bootRetry').hidden=false;}},true);
+document.getElementById('bootRetry').addEventListener('click',function(){location.reload();});
+</script>
 </body>
 </html>

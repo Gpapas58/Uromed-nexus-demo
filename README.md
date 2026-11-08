@@ -32,3 +32,8 @@ The login screen uses the supplied medical design as artwork (login-screen.png) 
 Doctor navigation now includes Imaging: patient-scoped imaging list, PNG/JPEG/WebP viewer from IndexedDB, zoom/fit/fullscreen, comparison with another examination of the same patient, and manual findings/conclusion/comparison notes. Existing exam attachments, backup and patient IDs are retained. Previous manual findings are recorded locally when changed. X-ray and other imaging categories were added. Font sizes and touch targets are increased; only implemented viewer tools are shown. DICOM/PDF/ZIP remain downloadable storage files, not diagnostic viewers.
 
 The CT AI screen is a separate **inactive design reference**. It displays the supplied static mockup with a clear label: no analysis runs, confidence scores/measurements are fictional, and nothing is imported into clinical records. Clinical image analysis requires a separately validated system. The original imaging mockup is also available as a design reference, separate from stored patient images.
+
+
+## Functional startup progress
+
+The welcome screen now overlays a real four-stage progress element on the supplied artwork. Stages correspond to welcome image decoding, application module loading, local workspace validation/migration, and opening the exam attachment store. There is no artificial loading timer. Continue becomes available after the checks complete. An unavailable image or attachment store is reported as a warning; a module or workspace failure blocks startup with retry and, when available, raw-data recovery export. Existing workspace keys are unchanged. The entry module is bootstrap.js.
