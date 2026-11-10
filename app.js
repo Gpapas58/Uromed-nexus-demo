@@ -4,7 +4,7 @@ import {formatMask,installMasks} from './input-masks.js?v=20261107-05';
 import {ACCOUNTS,check,setPin,registerBiometric,checkBiometric} from './auth.js?v=20261107-05';
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const version='v0.3 · Hybrid Futuristic · Build 11';
+const version='v0.3 · Hybrid Futuristic · Build 12';
 const THEME_KEY='uromed-ui-theme';
 let theme='light';
 try { const saved=localStorage.getItem(THEME_KEY);if(['dark','light','system'].includes(saved))theme=saved; } catch {}
