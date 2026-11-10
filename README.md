@@ -82,3 +82,11 @@ Validation: 28 domain/auth tests, browser checks for live interior layout on sev
 ## Build 12: readable photographic typography
 
 Fixed the dark-theme/light-photo contrast mismatch that made workspace headings nearly white on white. Photographic workspaces now use dark navy titles (30 px), stronger 14 px build metadata and higher-contrast labels/input text. Live panel headings, body text, table text and form controls are larger; primary actions retain white text on blue/green. Original PNG pixels are unchanged. A browser check covers both theme selections, title/metadata/control colors and sizes, visit saving and tablet/phone overflow.
+
+## Build 13: replace remaining legacy workspaces
+
+Applied the same readable blue/white panel system to every remaining doctor, reception and ADMIN workspace: patient creation/editing, full clinical history/notes/documents, examination entry/history, settings/PIN/biometrics/backup, administration, reports/print views, statistics, feedback, workspaces and the inactive AI design view. Shared headings include consistent icons, strong navy titles, white form surfaces, readable labels and blue actions in both outer theme settings. Role permissions and local demo limitations are unchanged.
+
+The clinical history form is now organized into three actual panels (general/family/allergies, urology/andrology/LUTS, diagnoses/medications) with one save footer. Examination entry is organized into metadata, results/notes and attachments panels. Existing DOM field IDs, form ownership, recovery and storage keys are retained. Settings, ADMIN and feedback use responsive panel columns; phone layouts stack without horizontal scrolling. The earlier photographed interior screens remain intact.
+
+Browser validation covers the updated doctor/admin/reception interfaces, theme-independent contrast, clinical and exam saving, existing file/backup workflows, settings/admin controls, role isolation and desktop/tablet/mobile widths. These interfaces remain educational/local-only; production auth, automatic clinical AI and shared synchronization are not added by the visual redesign.
