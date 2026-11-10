@@ -135,3 +135,7 @@ The seven-page Greek PDF now covers the patient contact directory, duplicate-AMK
 ## Build 21: viewport-fitted application shell
 
 The authenticated app now fits the available viewport with a fixed top bar, independently scrollable navigation and workspace, and no whole-page scrolling. Original photographic screens scale against both available width and height; responsive phone/tablet layouts keep scrolling inside the workspace. VisualViewport resize handling accommodates changing browser space without rebuilding forms. Landing/login remain normal pages, and print rules are unaffected. Browser validation covers seven routes at five width/height combinations, whole-page overflow, photo bounds, internal scrolling and preservation of unsaved fields during resize. The full core save/auth/backup/report suite also passes. This does not remove necessary scrolling from long clinical records.
+
+## Build 22: About page
+
+Added About below Help for doctor, reception and ADMIN, with creator Παπαδόπουλος Γεώργιος, current version, application purpose, doctor guide and development/distribution status without claiming licensing or certification. Photo navigation now uses evenly spaced live icon/label rows so About fits below Help without obscuring other entries. Reduced About and sidebar typography slightly as requested. Browser checks passed for all roles, ordering, attribution and viewport fit at desktop/tablet/phone sizes.

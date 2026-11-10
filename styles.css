@@ -200,3 +200,7 @@ body .marketing-page .marketing-header{background:linear-gradient(110deg,#002449
  body.workspace-open header .global-patient-search input{margin:0;min-height:38px;padding:8px}
  body.workspace-open header .theme-control{font-size:12px}
 }
+
+.about-dashboard{max-width:1200px;margin:auto}.about-dashboard .about-creator{font-size:24px;line-height:1.35}.about-dashboard .card h2{color:#0751a5}.photographic-frame .photographic-navigation{background:#002348}.photographic-frame .photographic-navigation .photo-nav-replacement{font-size:16px!important}.photographic-frame .photographic-navigation .photo-nav-replacement .nav-icon{width:27px;height:27px;flex-basis:27px}.photographic-frame .photographic-navigation .photo-nav-replacement[data-id=about]{border-top:1px solid #284a6e!important}
+
+.about-dashboard .card p{font-size:15px}.workspace-standard .about-dashboard .unified-intro h2{font-size:24px!important}.workspace-standard .about-dashboard .card h2{font-size:20px!important}.photographic-frame .sidebar .photographic-navigation .photo-nav-active{background:linear-gradient(100deg,#0057ff,#0089e4)!important;color:white!important}#app>.shell>.sidebar nav button{font-size:14px}
