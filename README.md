@@ -115,3 +115,7 @@ Added a shared patient directory for doctor and reception with surname/name, AMK
 ## Build 17: directory dashboard styling
 
 Aligned the contact directory with Home: blue/green/purple summary cards computed from current patients, a distinct search panel, clearer column headings and alternating row surfaces. Contact actions and duplicate-AMKA checks are unchanged. Browser checks passed for search, duplicate blocking, secondary phone persistence, reception isolation and desktop/tablet/phone overflow.
+
+## Build 18: supplied workspace screenshots
+
+Changed the doctor home greeting to Παπαδόπουλος Βασίλειος. Unified Clinics, Directory, Reports/PDF and Access Settings using the Home dashboard's blue/green/purple cards, panel headings and spacing; directory retains the Build 17 design. Reports counters are patient-scoped, while settings cards describe existing capabilities without claiming activation. Existing forms, role guards and storage are preserved. Browser checks passed for all four pages at desktop/tablet/phone widths and the existing workspace save/access suite.
