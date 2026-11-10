@@ -95,3 +95,11 @@ Browser validation covers the updated doctor/admin/reception interfaces, theme-i
 ## Greek doctor testing guide
 
 [Download the six-page Greek PDF](UroMed_Odigos_Giatrou_EL.pdf). Covers login with the public doctor demo account, fictional patients, visits, exams/imaging, external IDIKA, appointments, PDF/email drafts, backup, local storage and test feedback. No private credentials or real patient data are included.
+
+## Build 14: presentation and examination results
+
+Added a responsive Greek marketing page between startup and login, with working entry buttons, workflow navigation and the updated six-page doctor guide. The supplied Screen 5 and patient-management PNGs exactly match the already integrated assets, so no duplicate pages were added.
+
+Integrated the new examination photograph with live patient-scoped categories, search, date filters, result details, attachments, imaging links, PSA chart/comparison and printable filtered reports. New and edited examinations use the existing validated editor and return to the results view after successful local save. Original sample results are masked. PSA comparison is arithmetic only and excludes incompatible units; no laboratory API or clinical AI is claimed.
+
+Validation: 28 domain/auth tests plus browser suites for marketing/results, startup, clinical/files, core workflows, photographic navigation and grouped workspaces. Responsive checks cover desktop, tablet and phone viewport sizes, without claiming physical OS certification. Storage keys and existing fictional records are preserved.

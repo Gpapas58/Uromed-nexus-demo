@@ -12,7 +12,7 @@ async function start(){
  try{
   try{await $('bootArtwork').decode();}catch{warn('Η εικόνα υποδοχής δεν φορτώθηκε. Η εφαρμογή μπορεί να συνεχίσει.');}
   stage(1,'Εικόνα υποδοχής: ο έλεγχος ολοκληρώθηκε');
-  app=await import('./app.js?v=20261110-unified-screens');
+  app=await import('./app.js?v=20261110-marketing-results');
   stage(2,'Αρχεία εφαρμογής και λειτουργίες φορτώθηκαν');
   await new Promise(requestAnimationFrame);
   app.initializeWorkspace();
