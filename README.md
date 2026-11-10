@@ -103,3 +103,7 @@ Added a responsive Greek marketing page between startup and login, with working 
 Integrated the new examination photograph with live patient-scoped categories, search, date filters, result details, attachments, imaging links, PSA chart/comparison and printable filtered reports. New and edited examinations use the existing validated editor and return to the results view after successful local save. Original sample results are masked. PSA comparison is arithmetic only and excludes incompatible units; no laboratory API or clinical AI is claimed.
 
 Validation: 28 domain/auth tests plus browser suites for marketing/results, startup, clinical/files, core workflows, photographic navigation and grouped workspaces. Responsive checks cover desktop, tablet and phone viewport sizes, without claiming physical OS certification. Storage keys and existing fictional records are preserved.
+
+## Build 15: clinics dashboard
+
+Aligned Clinics with the home dashboard: blue/green clinic cards, live counts, today's appointment list and organization panel. Existing clinic-filtered calendar actions and ADMIN-managed names/hospital settings are preserved. Browser checks passed for card rendering, heading contrast, correct calendar filter and desktop/tablet/phone overflow. Storage is unchanged.
