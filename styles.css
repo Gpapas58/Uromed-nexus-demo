@@ -160,3 +160,43 @@ body .marketing-page .marketing-header{background:linear-gradient(110deg,#002449
 /* Patient toolbar: separate actions, extra filters and search without overlapping hit areas. */
 .photographic-frame .literal-interior .photo-toolbar-actions:has([data-action=exportPatients]){z-index:6;background:#f9fcff;padding:4px 0}.photographic-frame .literal-interior .photo-toolbar-actions:has([data-action=exportPatients])>.row{flex-wrap:nowrap;gap:10px;height:100%}.photographic-frame .literal-interior .photo-toolbar-actions:has([data-action=exportPatients]) button{min-height:40px;white-space:nowrap;font-size:16px;padding:8px 14px;border-radius:7px}.photographic-frame .literal-interior .photo-toolbar-actions:has([data-action=exportPatients]) button.secondary{background:#edf5ff!important;color:#0751a5!important;border:1px solid #a9c7ec!important}.photographic-frame .literal-interior .photo-more-filters{z-index:7;overflow:visible;background:#f9fcff!important}.photographic-frame .literal-interior .photo-more-filters summary{color:#0751a5!important;font-size:14px!important;min-height:30px;line-height:1.4;padding:5px 10px;text-align:right}.photographic-frame .literal-interior .photo-more-filters:has(details[open]){height:auto;box-shadow:0 6px 18px #07356925;border:1px solid #b8cfea;border-radius:6px;background:white!important}.photographic-frame .literal-interior .photo-more-filters details[open]>.grid{padding:10px;background:white}.photographic-frame .literal-interior .photo-more-filters details[open] label{color:#174d82!important;font-size:14px}.photographic-frame .literal-interior .photo-more-filters details[open] input{font-size:16px!important;min-height:40px}
 @media(max-width:999px){.photographic-frame .literal-interior .photo-toolbar-actions:has([data-action=exportPatients])>.row{flex-wrap:wrap}.photographic-frame .literal-interior .photo-toolbar-actions:has([data-action=exportPatients]) button{white-space:normal}.photographic-frame .literal-interior .photo-more-filters summary{text-align:left}}
+
+/* Fit the application shell to the available viewport; long workspaces scroll inside it. */
+@media screen{
+ body.workspace-open{height:100vh;height:100dvh;overflow:hidden;min-height:0}
+ body.workspace-open #app{display:flex;flex-direction:column;height:100vh;height:var(--workspace-height,100dvh);min-height:0;overflow:hidden}
+ body.workspace-open #app>header{flex-shrink:0;padding:12px 20px}
+ body.workspace-open #app>.shell{flex:1;min-height:0;width:100%;max-width:none;overflow:hidden;margin:0}
+ body.workspace-open #app>.shell>.sidebar{min-height:0;overflow:auto;overscroll-behavior:contain}
+ body.workspace-open #app>.shell>.sidebar>nav{position:static}
+ body.workspace-open #app>.shell>main{min-height:0;overflow:auto;overscroll-behavior:contain;scrollbar-gutter:stable}
+ body.workspace-open #app>footer,body.workspace-open #app>.photo-frame-note{display:none}
+ body.workspace-open .table-wrap{max-width:100%}
+ body.workspace-open main :is(input,select,textarea){max-width:100%}
+}
+@media screen and (min-width:1000px){
+ body.workspace-open #app>.photo-viewport{flex:1;min-height:0;height:auto;overflow:hidden}
+ body.workspace-open .photo-viewport>.photographic-frame{left:var(--photo-left,0px)}
+}
+@media screen and (max-width:999px){
+ body.workspace-open #app>.photo-viewport{flex:1;min-height:0;overflow:hidden}
+ body.workspace-open .photo-viewport>.photographic-frame{height:100%;display:flex;flex-direction:column}
+ body.workspace-open .photographic-frame>header{flex-shrink:0;padding:12px 16px}
+ body.workspace-open .photographic-frame>.shell{flex:1;min-height:0;width:100%;max-width:none;margin:0;overflow:hidden}
+ body.workspace-open .photographic-frame .sidebar{min-height:0;overflow:auto;overscroll-behavior:contain}
+ body.workspace-open .photographic-frame .sidebar>nav{position:static}
+ body.workspace-open .photographic-frame .shell>main{min-height:0;overflow:auto;overscroll-behavior:contain;scrollbar-gutter:stable}
+}
+@media screen and (max-width:700px){
+ body.workspace-open #app>.shell,body.workspace-open .photographic-frame>.shell{display:flex;flex-direction:column}
+ body.workspace-open #app>.shell>.sidebar,body.workspace-open .photographic-frame .sidebar{flex-shrink:0;max-height:82px;padding:6px 8px;overflow:auto}
+ body.workspace-open #app>.shell>main,body.workspace-open .photographic-frame .shell>main{flex:1;min-height:0;padding:16px 12px}
+ body.workspace-open #app>header,body.workspace-open .photographic-frame>header{gap:8px;padding:8px 12px}
+ body.workspace-open header>.brand{font-size:17px}
+ body.workspace-open header>.row{gap:6px}
+ body.workspace-open header button{font-size:13px;padding:7px 9px;min-height:38px}
+ body.workspace-open header .global-patient-search{flex-basis:100%;min-width:0}
+ body.workspace-open header .global-patient-search>label{display:none}
+ body.workspace-open header .global-patient-search input{margin:0;min-height:38px;padding:8px}
+ body.workspace-open header .theme-control{font-size:12px}
+}

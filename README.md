@@ -131,3 +131,7 @@ Named the default locations Ιατρείο Σέρρες, Ιατρείο Τούζ
 ## Updated Build 20 doctor guide
 
 The seven-page Greek PDF now covers the patient contact directory, duplicate-AMKA prevention, Serres/Touzla clinics and Serres hospital, examination filters and current login flow. Public doctor demo credentials only; no ADMIN credentials or real patient data. The in-app PDF link and page count are updated.
+
+## Build 21: viewport-fitted application shell
+
+The authenticated app now fits the available viewport with a fixed top bar, independently scrollable navigation and workspace, and no whole-page scrolling. Original photographic screens scale against both available width and height; responsive phone/tablet layouts keep scrolling inside the workspace. VisualViewport resize handling accommodates changing browser space without rebuilding forms. Landing/login remain normal pages, and print rules are unaffected. Browser validation covers seven routes at five width/height combinations, whole-page overflow, photo bounds, internal scrolling and preservation of unsaved fields during resize. The full core save/auth/backup/report suite also passes. This does not remove necessary scrolling from long clinical records.
