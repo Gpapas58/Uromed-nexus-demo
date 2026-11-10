@@ -119,3 +119,7 @@ Aligned the contact directory with Home: blue/green/purple summary cards compute
 ## Build 18: supplied workspace screenshots
 
 Changed the doctor home greeting to Παπαδόπουλος Βασίλειος. Unified Clinics, Directory, Reports/PDF and Access Settings using the Home dashboard's blue/green/purple cards, panel headings and spacing; directory retains the Build 17 design. Reports counters are patient-scoped, while settings cards describe existing capabilities without claiming activation. Existing forms, role guards and storage are preserved. Browser checks passed for all four pages at desktop/tablet/phone widths and the existing workspace save/access suite.
+
+## Build 19: patient toolbar visibility
+
+Fixed Screenshot 91's overlap between patient actions and the additional-filter region. Actions, extra-filter disclosure and search now occupy separate rows; secondary buttons have readable light-blue contrast. Expanded date filters grow above the list without clipping. Browser hit-testing passed for all three actions, expanded filter inputs, new-patient navigation and desktop/tablet/phone overflow.

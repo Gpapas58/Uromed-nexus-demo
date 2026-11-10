@@ -5,7 +5,7 @@ import {formatMask,installMasks} from './input-masks.js?v=20261107-05';
 import {ACCOUNTS,check,setPin,registerBiometric,checkBiometric} from './auth.js?v=20261107-05';
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const version='v0.3 · Hybrid Futuristic · Build 18';
+const version='v0.3 · Hybrid Futuristic · Build 19';
 const THEME_KEY='uromed-ui-theme';
 let theme='light';
 try { const saved=localStorage.getItem(THEME_KEY);if(['dark','light','system'].includes(saved))theme=saved; } catch {}
@@ -345,7 +345,7 @@ function applyPhotographicInterior(main){
  html(`<h2>Παρατηρήσεις δοκιμής</h2><p>Ανοιχτές: ${(state.feedback||[]).filter(f=>f.status!=='done').length}</p>${enabled('feedback')?button('Καταγραφή παρατήρησης','nav','feedback','secondary'):button('Ρυθμίσεις','nav','settings','secondary')}`,1280,705,374,222,'photo-card');
  }
  if(page==='patients'){
- const actions=find('.patient-toolbar>.row'),clear=find('[data-action=patientClearFilters]');if(actions&&clear)actions.append(clear);box('.patient-toolbar>.row',896,106,758,52,'photo-toolbar-actions');if(find('#search'))find('#search').placeholder='Αναζήτηση με όνομα, ηλικία, Α.Μ.Κ.Α. ή τηλέφωνο';box('.patient-filters',259,180,1396,66,'photo-patient-filters');box('.patient-table-panel>details',1230,140,420,31,'photo-more-filters');box('#patientResults',259,264,1396,665,'photo-patient-results');box('#patientPageSize',1515,884,135,37,'photo-page-size');box('#listFilterError',260,929,1380,12,'photo-status');
+ const actions=find('.patient-toolbar>.row'),clear=find('[data-action=patientClearFilters]');if(actions&&clear)actions.append(clear);box('.patient-toolbar>.row',896,106,758,52,'photo-toolbar-actions');if(find('#search'))find('#search').placeholder='Αναζήτηση με όνομα, ηλικία, Α.Μ.Κ.Α. ή τηλέφωνο';box('.patient-filters',259,194,1396,66,'photo-patient-filters');box('.patient-table-panel>details',1050,158,600,32,'photo-more-filters');box('#patientResults',259,264,1396,665,'photo-patient-results');box('#patientPageSize',1515,884,135,37,'photo-page-size');box('#listFilterError',260,929,1380,12,'photo-status');
  }
  if(page==='calendar'){
  box('.calendar-toolbar>.row>[data-action=newAppointment]',1450,106,200,47,'photo-toolbar-actions');const controls=find('.calendar-top-controls');box(controls?.children[0],266,164,195,49,'photo-calendar-controls');box(controls?.children[0],892,164,430,49,'photo-calendar-controls');
