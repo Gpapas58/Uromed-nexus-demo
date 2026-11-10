@@ -107,3 +107,7 @@ Validation: 28 domain/auth tests plus browser suites for marketing/results, star
 ## Build 15: clinics dashboard
 
 Aligned Clinics with the home dashboard: blue/green clinic cards, live counts, today's appointment list and organization panel. Existing clinic-filtered calendar actions and ADMIN-managed names/hospital settings are preserved. Browser checks passed for card rendering, heading contrast, correct calendar filter and desktop/tablet/phone overflow. Storage is unchanged.
+
+## Build 16: patient contact directory
+
+Added a shared patient directory for doctor and reception with surname/name, AMKA, primary/secondary phone and email, accent-insensitive search, normalized phone lookup, tel/mailto links and existing edit/appointment actions. Clinical-record actions remain doctor-only. Contacts come from the same patient objects; secondary phone is optional and backwards compatible. Saving a patient with an already assigned nonempty AMKA is blocked and identifies the existing record; existing same-name confirmation remains. Browser checks passed for lookup, duplicate blocking, secondary-phone persistence, calendar links, responsive overflow and reception isolation; all 28 domain/auth tests pass. No automatic email delivery or production identity validation is added.

@@ -41,7 +41,7 @@ export function validate(s) {
  if((s.examinations||[]).some(e=>(e.comparisonNote!==undefined&&!string(e.comparisonNote))||(e.imagingRevisions!==undefined&&(!Array.isArray(e.imagingRevisions)||e.imagingRevisions.some(r=>!r||!string(r.at,100)||!string(r.author,100)||!string(r.result)||!string(r.notes)||!string(r.comparisonNote))))))throw Error('Μη έγκυρο ιστορικό απεικονιστικών ευρημάτων.');
  const fileIds=(s.examinations||[]).flatMap(e=>e.files.map(f=>f.id));if(new Set(fileIds).size!==fileIds.length)throw Error('Διπλοί κωδικοί συνημμένων.');
 
- if (!s.patients.every(p=>string(p.name,150)&&p.name.trim()&&Number.isInteger(p.age)&&p.age>=0&&p.age<=120&&(p.amka===undefined||typeof p.amka==='string'&&/^(?:[0-9]{11})?$/.test(p.amka))&&string(p.phone,60)&&string(p.notes))) throw Error('Μη έγκυρα στοιχεία ασθενών.');
+ if (!s.patients.every(p=>string(p.name,150)&&p.name.trim()&&Number.isInteger(p.age)&&p.age>=0&&p.age<=120&&(p.amka===undefined||typeof p.amka==='string'&&/^(?:[0-9]{11})?$/.test(p.amka))&&string(p.phone,60)&&(p.phone2===undefined||string(p.phone2,60))&&string(p.notes))) throw Error('Μη έγκυρα στοιχεία ασθενών.');
  if (!s.appointments.every(a=>patients.has(a.patientId)&&validDate(a.date)&&validTime(a.time)&&Number.isInteger(a.duration)&&a.duration>=5&&a.duration<=240&&minutes(a.time)+a.duration<=1440&&['clinic-1','clinic-2','hospital'].includes(a.clinic)&&['scheduled','cancelled','completed','no-show'].includes(a.status))) throw Error('Μη έγκυρα ραντεβού.');
  const findingsValid=f=>f===undefined||f&&typeof f==='object'&&!Array.isArray(f)&&Object.entries(f).every(([k,v])=>Object.hasOwn(FINDING_FIELDS,k)&&string(v,500)&&(!['systolic','diastolic','pulse','bmi','qmax','pvr'].includes(k)||v===''||Number.isFinite(Number(v))&&Number(v)>=0&&Number(v)<=10000));
  const visitValid = v => findingsValid(v.findings)&&patients.has(v.patientId)&&validDate(v.date)&&['clinic-1','clinic-2','hospital'].includes(v.clinic)&&['draft','final'].includes(v.status)&&['reason','history','exam','assessment','plan'].every(k=>string(v[k]))&&string(v.author,100)&&string(v.updatedAt,100)&&Array.isArray(v.revisions);
@@ -55,7 +55,7 @@ export function validate(s) {
 export function normalize(s) {
  validate(s);
  const defaults=fresh().settings;
- return {...s,patients:s.patients.map(p=>({...p,status:p.status||'active',favourite:p.favourite||false,sex:p.sex||'unknown',assignedClinic:p.assignedClinic||'',email:p.email||'',address:p.address||'',occupation:p.occupation||'',insurance:p.insurance||'',contact:p.contact||'',amka:p.amka||'',lastName:p.lastName||'',firstName:p.firstName||'',clinical:p.clinical||emptyClinical()})),examinations:s.examinations||[],feedback:s.feedback||[],settings:{...defaults,...s.settings,modules:{...defaults.modules,...s.settings.modules},clinicNames:{...defaults.clinicNames,...s.settings.clinicNames}}};
+ return {...s,patients:s.patients.map(p=>({...p,status:p.status||'active',favourite:p.favourite||false,sex:p.sex||'unknown',assignedClinic:p.assignedClinic||'',email:p.email||'',phone2:p.phone2||'',address:p.address||'',occupation:p.occupation||'',insurance:p.insurance||'',contact:p.contact||'',amka:p.amka||'',lastName:p.lastName||'',firstName:p.firstName||'',clinical:p.clinical||emptyClinical()})),examinations:s.examinations||[],feedback:s.feedback||[],settings:{...defaults,...s.settings,modules:{...defaults.modules,...s.settings.modules},clinicNames:{...defaults.clinicNames,...s.settings.clinicNames}}};
 }
 export function demoState() {
  const s=normalize(fresh());
