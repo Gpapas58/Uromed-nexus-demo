@@ -111,3 +111,7 @@ Aligned Clinics with the home dashboard: blue/green clinic cards, live counts, t
 ## Build 16: patient contact directory
 
 Added a shared patient directory for doctor and reception with surname/name, AMKA, primary/secondary phone and email, accent-insensitive search, normalized phone lookup, tel/mailto links and existing edit/appointment actions. Clinical-record actions remain doctor-only. Contacts come from the same patient objects; secondary phone is optional and backwards compatible. Saving a patient with an already assigned nonempty AMKA is blocked and identifies the existing record; existing same-name confirmation remains. Browser checks passed for lookup, duplicate blocking, secondary-phone persistence, calendar links, responsive overflow and reception isolation; all 28 domain/auth tests pass. No automatic email delivery or production identity validation is added.
+
+## Build 17: directory dashboard styling
+
+Aligned the contact directory with Home: blue/green/purple summary cards computed from current patients, a distinct search panel, clearer column headings and alternating row surfaces. Contact actions and duplicate-AMKA checks are unchanged. Browser checks passed for search, duplicate blocking, secondary phone persistence, reception isolation and desktop/tablet/phone overflow.
