@@ -90,3 +90,8 @@ Applied the same readable blue/white panel system to every remaining doctor, rec
 The clinical history form is now organized into three actual panels (general/family/allergies, urology/andrology/LUTS, diagnoses/medications) with one save footer. Examination entry is organized into metadata, results/notes and attachments panels. Existing DOM field IDs, form ownership, recovery and storage keys are retained. Settings, ADMIN and feedback use responsive panel columns; phone layouts stack without horizontal scrolling. The earlier photographed interior screens remain intact.
 
 Browser validation covers the updated doctor/admin/reception interfaces, theme-independent contrast, clinical and exam saving, existing file/backup workflows, settings/admin controls, role isolation and desktop/tablet/mobile widths. These interfaces remain educational/local-only; production auth, automatic clinical AI and shared synchronization are not added by the visual redesign.
+
+
+## Greek doctor testing guide
+
+[Download the six-page Greek PDF](UroMed_Odigos_Giatrou_EL.pdf). Covers login with the public doctor demo account, fictional patients, visits, exams/imaging, external IDIKA, appointments, PDF/email drafts, backup, local storage and test feedback. No private credentials or real patient data are included.
