@@ -1,11 +1,11 @@
 let directoryQuery="";
 import {checkFile,getFile,putFile,deleteFile,exportFiles,decodeFiles,fileStore} from './exam-files.js?v=20261107-05';
-import {DATA_KEY,load,save,validate,uid,today,isoDate,displayDate,validTime,minutes,conflicts,normalize,demoState,visitStats,MODULES,matchesPatient,CLINICAL_FIELDS,EXAM_TYPES,emptyClinical,PATIENT_STATUSES,patientLastVisit,patientClinics,timelineEvents,psaValues,patientsCSV,FINDING_FIELDS,findingsText,searchText} from './data.js?v=20261108-08';
+import {DATA_KEY,load,save,validate,uid,today,isoDate,displayDate,validTime,minutes,conflicts,normalize,demoState,visitStats,MODULES,matchesPatient,CLINICAL_FIELDS,EXAM_TYPES,emptyClinical,PATIENT_STATUSES,patientLastVisit,patientClinics,timelineEvents,psaValues,patientsCSV,FINDING_FIELDS,findingsText,searchText} from './data.js?v=20261110-clinic-locations';
 import {formatMask,installMasks} from './input-masks.js?v=20261107-05';
 import {ACCOUNTS,check,setPin,registerBiometric,checkBiometric} from './auth.js?v=20261107-05';
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const version='v0.3 · Hybrid Futuristic · Build 19';
+const version='v0.3 · Hybrid Futuristic · Build 20';
 const THEME_KEY='uromed-ui-theme';
 let theme='light';
 try { const saved=localStorage.getItem(THEME_KEY);if(['dark','light','system'].includes(saved))theme=saved; } catch {}
@@ -32,9 +32,9 @@ function clearRecovery(){interrupted=null;try{sessionStorage.removeItem(RECOVERY
 function captureRecovery(){if(!account||!recoveryFields[page])return;interrupted={username:account.username,page,clinicalTab,editingPatient,editingVisit,editingAppointment,editingExamination,imagingExam,imagingCompare,imagingFile,selectedPatient,values:Object.fromEntries(recoveryFields[page].filter(id=>$(id)).map(id=>[id,$(id).value]))};try{sessionStorage.setItem(RECOVERY_KEY,JSON.stringify(interrupted));}catch{}}
 function recoveryNotice(){return interrupted?.username===account?.username?`<div class="card recovery"><h2>Συνέχεια εργασίας μετά το κλείδωμα</h2><p>Υπάρχει φόρμα που διακόπηκε. Μπορείτε να επαναφέρετε τα πεδία και να ελέγξετε την αποθήκευσή τους.</p><div class="row">${button('Ανάκτηση φόρμας','recoverForm')}${button('Απόρριψη φόρμας','discardRecovery','','secondary')}</div></div>`:'';}
 
-const clinics=()=>['clinic-1','clinic-2',...(state?.settings.hospital?['hospital']:[])].map(id=>({id,name:state?.settings.clinicNames?.[id]||({'clinic-1':'Ιατρείο 1','clinic-2':'Ιατρείο 2',hospital:'Νοσοκομείο'}[id])}));
+const clinics=()=>['clinic-1','clinic-2',...(state?.settings.hospital?['hospital']:[])].map(id=>({id,name:state?.settings.clinicNames?.[id]||({'clinic-1':'Ιατρείο Σέρρες','clinic-2':'Ιατρείο Τούζλα',hospital:'Νοσοκομείο Σέρρες'}[id])}));
 const enabled=id=>state?.settings.modules?.[id]!==false;
-const clinicName=id=>esc(state?.settings.clinicNames?.[id]||({'clinic-1':'Ιατρείο 1','clinic-2':'Ιατρείο 2',hospital:'Νοσοκομείο'}[id]||'—'));
+const clinicName=id=>esc(state?.settings.clinicNames?.[id]||({'clinic-1':'Ιατρείο Σέρρες','clinic-2':'Ιατρείο Τούζλα',hospital:'Νοσοκομείο Σέρρες'}[id]||'—'));
 const patient=id=>state.patients.find(p=>p.id===id);
 const doctor=()=>account?.role==='doctor';
 const button=(label,action,arg='',cls='')=>`<button type="button" class="${cls}" data-action="${action}" data-id="${esc(arg)}">${label}</button>`;

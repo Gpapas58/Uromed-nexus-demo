@@ -21,7 +21,7 @@ export function fresh() {
  return {schema:1,patients:[
   {id:'seed-1',name:'Αλέξανδρος Δοκιμής',age:52,phone:'',notes:'Εικονική προληπτική επίσκεψη'},
   {id:'seed-2',name:'Νικόλαος Παραδείγματος',age:64,phone:'',notes:'Εικονικός επανέλεγχος'},
-  {id:'seed-3',name:'Πέτρος Υποδείγματος',age:43,phone:'',notes:'Εικονική πρώτη επίσκεψη'}],appointments:[],visits:[],settings:{hospital:false,modules:{statistics:true,feedback:true,programPrint:true,email:true},clinicNames:{'clinic-1':'Ιατρείο 1','clinic-2':'Ιατρείο 2',hospital:'Νοσοκομείο'},travelMinutes:0},updatedAt:new Date().toISOString()};
+  {id:'seed-3',name:'Πέτρος Υποδείγματος',age:43,phone:'',notes:'Εικονική πρώτη επίσκεψη'}],appointments:[],visits:[],settings:{hospital:true,clinicLocationsVersion:1,modules:{statistics:true,feedback:true,programPrint:true,email:true},clinicNames:{'clinic-1':'Ιατρείο Σέρρες','clinic-2':'Ιατρείο Τούζλα',hospital:'Νοσοκομείο Σέρρες'},travelMinutes:0},updatedAt:new Date().toISOString()};
 }
 const string = (s,max=Infinity) => typeof s === 'string' && s.length <= max;
 export const EXAM_TYPES={ultrasound:'Υπερηχογράφημα',ct:'Αξονική τομογραφία',mri:'Μαγνητική τομογραφία',blood:'Γενική αίματος',biochem:'Βιοχημικές εξετάσεις',psa:'PSA',xray:'Απλή ακτινογραφία',otherImaging:'Άλλη απεικόνιση',prescription:'Αντίγραφο συνταγής · χειροκίνητη εισαγωγή',other:'Άλλη εξέταση'};
@@ -55,7 +55,10 @@ export function validate(s) {
 export function normalize(s) {
  validate(s);
  const defaults=fresh().settings;
- return {...s,patients:s.patients.map(p=>({...p,status:p.status||'active',favourite:p.favourite||false,sex:p.sex||'unknown',assignedClinic:p.assignedClinic||'',email:p.email||'',phone2:p.phone2||'',address:p.address||'',occupation:p.occupation||'',insurance:p.insurance||'',contact:p.contact||'',amka:p.amka||'',lastName:p.lastName||'',firstName:p.firstName||'',clinical:p.clinical||emptyClinical()})),examinations:s.examinations||[],feedback:s.feedback||[],settings:{...defaults,...s.settings,modules:{...defaults.modules,...s.settings.modules},clinicNames:{...defaults.clinicNames,...s.settings.clinicNames}}};
+ const locationNames={...defaults.clinicNames,...s.settings.clinicNames};
+ if(!s.settings.clinicLocationsVersion){for(const [id,old] of Object.entries({'clinic-1':'Ιατρείο 1','clinic-2':'Ιατρείο 2',hospital:'Νοσοκομείο'})){if(locationNames[id]===old)locationNames[id]=defaults.clinicNames[id];}}
+ const locationSettings={clinicNames:locationNames,clinicLocationsVersion:1,hospital:s.settings.clinicLocationsVersion?s.settings.hospital:true};
+ return {...s,patients:s.patients.map(p=>({...p,status:p.status||'active',favourite:p.favourite||false,sex:p.sex||'unknown',assignedClinic:p.assignedClinic||'',email:p.email||'',phone2:p.phone2||'',address:p.address||'',occupation:p.occupation||'',insurance:p.insurance||'',contact:p.contact||'',amka:p.amka||'',lastName:p.lastName||'',firstName:p.firstName||'',clinical:p.clinical||emptyClinical()})),examinations:s.examinations||[],feedback:s.feedback||[],settings:{...defaults,...s.settings,modules:{...defaults.modules,...s.settings.modules},...locationSettings}};
 }
 export function demoState() {
  const s=normalize(fresh());

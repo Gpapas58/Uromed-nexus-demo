@@ -123,3 +123,7 @@ Changed the doctor home greeting to Παπαδόπουλος Βασίλειος.
 ## Build 19: patient toolbar visibility
 
 Fixed Screenshot 91's overlap between patient actions and the additional-filter region. Actions, extra-filter disclosure and search now occupy separate rows; secondary buttons have readable light-blue contrast. Expanded date filters grow above the list without clipping. Browser hit-testing passed for all three actions, expanded filter inputs, new-patient navigation and desktop/tablet/phone overflow.
+
+## Build 20: Serres and Touzla locations
+
+Named the default locations Ιατρείο Σέρρες, Ιατρείο Τούζλα and Νοσοκομείο Σέρρες, enabling the hospital. A one-time compatible settings migration replaces old generic names while preserving existing custom names, appointment/visit location IDs and later ADMIN choices. Cache versioning updates the data module. All 28 domain/auth tests and browser checks for migration, three home cards and hospital calendar/appointment selection pass.
